@@ -1,5 +1,5 @@
 package com.github.vjames19.aima.environment.vacuum
 
-enum class VacuumLocation {
+enum class VacuumEnvironmentLocation {
     Left, Right
 }
