@@ -5,7 +5,7 @@ import com.github.vjames19.aima.agent.*
 /**
  * Created by victor.reventos on 8/8/17.
  */
-abstract class ModelbasedReflexAgentProgram<S: State, M: Model>(val rules: Set<Rule>) : AgentProgram {
+abstract class ModelbasedReflexAgentProgram<S: State, M: Model>(val rules: Set<Rule<S>>) : AgentProgram {
 
     var state: S? = null
     var model: M? = null
@@ -18,5 +18,5 @@ abstract class ModelbasedReflexAgentProgram<S: State, M: Model>(val rules: Set<R
     }
 
     abstract fun updateState(state: S?, model: M?, action: Action?, percept: Percept): S
-    abstract fun ruleMatch(rules: Set<Rule>, state: S): Rule?
+    abstract fun ruleMatch(rules: Set<Rule<S>>, state: S): Rule<S>?
 }

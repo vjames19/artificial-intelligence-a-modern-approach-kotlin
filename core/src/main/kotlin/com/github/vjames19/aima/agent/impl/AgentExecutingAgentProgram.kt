@@ -8,7 +8,11 @@ import com.github.vjames19.aima.agent.Percept
 /**
  * Created by victor.reventos on 8/8/17.
  */
-abstract class AgentExecutingAgentProgram(val agentProgram: AgentProgram) : Agent {
+abstract class AgentExecutingAgentProgram : Agent {
+
+    abstract val agentProgram: AgentProgram
+
+    override var isAlive: Boolean = true
 
     override fun execute(percept: Percept): Action {
         return agentProgram.execute(percept)

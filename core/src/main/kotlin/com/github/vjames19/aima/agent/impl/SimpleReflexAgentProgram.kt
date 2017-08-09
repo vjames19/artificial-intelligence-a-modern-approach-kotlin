@@ -5,7 +5,7 @@ import com.github.vjames19.aima.agent.*
 /**
  * Created by victor.reventos on 8/8/17.
  */
-abstract class SimpleReflexAgentProgram<S: State> (val rules: Set<Rule>): AgentProgram {
+abstract class SimpleReflexAgentProgram<S: State> (val rules: Set<Rule<S>>): AgentProgram {
 
     override fun execute(percept: Percept): Action {
         val state = interpretInput(percept)
@@ -15,5 +15,5 @@ abstract class SimpleReflexAgentProgram<S: State> (val rules: Set<Rule>): AgentP
 
     abstract fun interpretInput(percept: Percept): S
 
-    abstract fun ruleMatches(state: S, rules: Set<Rule>): Rule?
+    open fun ruleMatches(state: S, rules: Set<Rule<S>>): Rule<S>? = rules.firstOrNull { it.evaluate(state) }
 }

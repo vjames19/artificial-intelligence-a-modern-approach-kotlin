@@ -11,6 +11,11 @@ interface Environment {
 
 
     fun isDone(): Boolean
-    fun step(n: Int = 1)
+    fun step()
+    fun step(n: Int) {
+        for (i in 0 until n) {
+            step()
+        }
+    }
     fun stepUntilDone()
 }
