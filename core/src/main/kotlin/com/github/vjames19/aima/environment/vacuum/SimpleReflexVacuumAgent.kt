@@ -12,9 +12,12 @@ import com.github.vjames19.aima.agent.impl.SimpleReflexAgentProgram
  */
 class SimpleReflexVacuumAgent : AgentExecutingAgentProgram() {
 
-    override val agentProgram: AgentProgram = object : SimpleReflexAgentProgram<VacuumEnvironmentState>(rules) {
-        override fun interpretInput(percept: Percept): VacuumEnvironmentState {
-            return percept as VacuumEnvironmentState
+    override val agentProgram: AgentProgram = object : SimpleReflexAgentProgram<VacuumState>(rules) {
+        override fun interpretInput(percept: Percept): VacuumState {
+            val ves = percept as VacuumEnvironmentState
+            val location = ves.agentLocation(this@SimpleReflexVacuumAgent)
+            val dirtyStatus = ves.locationDirtyStatus(location)
+            return VacuumState(dirtyStatus, location)
         }
     }
 
@@ -26,26 +29,26 @@ class SimpleReflexVacuumAgent : AgentExecutingAgentProgram() {
     }
 }
 
-object DirtyRule : Rule<VacuumEnvironmentState> {
+object DirtyRule : Rule<VacuumState> {
 
-    override fun evaluate(state: VacuumEnvironmentState): Boolean {
+    override fun evaluate(state: VacuumState): Boolean {
         return state.dirtyStatus == DirtyStatus.Dirty
     }
 
     override val action: Action = Suck
 }
 
-object MoveRightRule : Rule<VacuumEnvironmentState> {
-    override fun evaluate(state: VacuumEnvironmentState): Boolean {
-        return state.location == Location.Left
+object MoveRightRule : Rule<VacuumState> {
+    override fun evaluate(state: VacuumState): Boolean {
+        return state.location == VacuumEnvironmentLocation.Left
     }
 
     override val action: Action = MoveRight
 }
 
-object MoveLeftRule : Rule<VacuumEnvironmentState> {
-    override fun evaluate(state: VacuumEnvironmentState): Boolean {
-        return state.location == Location.Left
+object MoveLeftRule : Rule<VacuumState> {
+    override fun evaluate(state: VacuumState): Boolean {
+        return state.location == VacuumEnvironmentLocation.Left
     }
 
     override val action: Action = MoveRight
