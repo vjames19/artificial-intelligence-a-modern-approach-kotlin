@@ -15,24 +15,20 @@ class VacuumEnvironment(val state: VacuumEnvironmentState) : AbstractEnvironment
     }
 
     override fun getPerceptSeenBy(agent: Agent): Percept {
-        val location = agentLocation(agent)
-        val dirtyStatus = locationDirtyStatus(location)
+        val location = state.agentLocation(agent)
+        val dirtyStatus = state.locationDirtyStatus(location)
         return VacuumState(dirtyStatus, location)
     }
 
     override fun executeAction(agent: Agent, action: Action) {
         if (action is VacuumAction) {
             when(action) {
-                is Suck -> cleanLocation(agentLocation(agent))
+                is Suck -> cleanLocation(state.agentLocation(agent))
                 is MoveLeft-> state.agentsLocation[agent] = VacuumEnvironmentLocation.Left
                 is MoveRight -> state.agentsLocation[agent] = VacuumEnvironmentLocation.Right
             }
         }
     }
-
-    private fun agentLocation(agent: Agent) = state.agentsLocation[agent]!!
-
-    private fun locationDirtyStatus(location: VacuumEnvironmentLocation) = state.locationDirtyStatus[if (location == VacuumEnvironmentLocation.Left) 0 else 1]
 
     private fun cleanLocation(location: VacuumEnvironmentLocation) {
         state.locationDirtyStatus[if (location == VacuumEnvironmentLocation.Left) 0 else 1] = DirtyStatus.Clean
